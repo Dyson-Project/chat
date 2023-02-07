@@ -3,6 +3,9 @@ plugins {
     id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'org.jetbrains.kotlin.jvm' version '1.8.10'
+    id 'com.palantir.docker' version '0.31.0'
+    id 'com.palantir.docker-run' version '0.31.0'
+    id 'pl.allegro.tech.build.axion-release' version '1.13.6'
 }
 
 group = 'org.dyson'
@@ -68,4 +71,20 @@ compileTestKotlin {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+}
+
+def imageName = "${project.name}:${project.version}"
+docker {
+    dockerfile project.file('Dockerfile')
+    name imageName
+    files bootJar.archiveFile.get()
+    buildArgs(['JAR_FILE': "${bootJar.archiveFileName.get()}"])
+}
+dockerRun {
+    name "${project.name}"
+    image imageName
+    ports '4160:4160'
+    env 'SPRING_PROFILES_ACTIVE': 'default'
+    clean true
+    daemonize true
 }

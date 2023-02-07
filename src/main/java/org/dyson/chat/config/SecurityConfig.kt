@@ -35,15 +35,15 @@ open class SecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
-    @Bean
-    open fun userDetailsManager(): UserDetailsManager {
-        val user = User.withUsername("user")
-            .username("root")
-            .password(BCryptPasswordEncoder().encode("root"))
-            .roles("ROOT")
-            .build()
-        val users = JdbcUserDetailsManager(null)
-        users.createUser(user);
-        return users;
-    }
+//    @Bean
+//    open fun userDetailsManager(): UserDetailsManager {
+//        val user = User.withUsername("user")
+//            .username("root")
+//            .password(BCryptPasswordEncoder().encode("root"))
+//            .roles("ROOT")
+//            .build()
+//        val users = JdbcUserDetailsManager(null)
+//        users.createUser(user);
+//        return users;
+//    }
 }
