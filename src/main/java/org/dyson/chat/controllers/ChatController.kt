@@ -1,16 +1,13 @@
-package org.dyson.chat
+package org.dyson.chat.controllers
 
+import org.dyson.chat.entities.Message
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.handler.annotation.MessageMapping
-import org.springframework.messaging.simp.SimpMessageType
-import org.springframework.messaging.simp.SimpMessageTypeMessageCondition
 import org.springframework.messaging.simp.SimpMessagingTemplate
 import org.springframework.messaging.simp.annotation.SendToUser
-import org.springframework.messaging.simp.stomp.StompCommand
 import org.springframework.messaging.support.GenericMessage
 import org.springframework.stereotype.Controller
-import java.awt.TrayIcon.MessageType
 
 @Controller
 class ChatController @Autowired constructor(

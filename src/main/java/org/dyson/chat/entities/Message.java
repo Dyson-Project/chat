@@ -1,4 +1,4 @@
-package org.dyson.chat;
+package org.dyson.chat.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

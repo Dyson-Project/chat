@@ -1,8 +1,11 @@
 spring:
   jpa:
-    database:
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
+    show-sql: true
   datasource:
-    url: postgresql://14:225.205.235/chat
+    url: jdbc:postgresql://14.225.205.235:5432/chat
     username: root
     password: P@ssword789
     hikari:
