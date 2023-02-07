@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.10'
 }
 
 group = 'org.dyson'
@@ -19,8 +20,36 @@ repositories {
 }
 
 dependencies {
-//    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    /**
+     * Security
+     */
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-messaging'
+    /**
+     * Websocket
+     */
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.springframework.data:spring-data-jpa'
+    /**
+     * Json serializer
+     */
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.14.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
+    /**
+     * Webjar
+     */
+    implementation 'org.webjars:bootstrap:5.2.3'
+    implementation 'org.webjars:jquery:3.6.3'
+    implementation 'org.webjars:stomp-websocket:2.3.4'
+    implementation 'org.webjars:sockjs-client:1.5.1'
+    implementation 'org.webjars:webjars-locator:0.46'
+    /**
+     * Kotlin
+     */
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    /**
+     * Others
+     */
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -29,4 +58,14 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
