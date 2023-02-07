@@ -1,5 +1,6 @@
 package org.dyson.chat.entities;
 
+import org.dyson.chat.core.AbstractAuditEntity;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
@@ -16,13 +17,13 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
-public class User implements UserDetails, CredentialsContainer {
+public class User extends AbstractAuditEntity implements UserDetails, CredentialsContainer {
     @Id
     private final String username;
 
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Authority> authorities;
 
     private Boolean accountNonExpired;

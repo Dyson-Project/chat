@@ -1,7 +1,9 @@
+server:
+  port: 4160
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     defer-datasource-initialization: true
     show-sql: true
   datasource:
@@ -26,8 +28,6 @@ spring:
       date-time: iso
       date: iso
       time: iso
-server:
-  port: 4160
 logging:
   level:
     org:

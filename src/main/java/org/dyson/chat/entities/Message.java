@@ -1,17 +1,18 @@
 package org.dyson.chat.entities;
 
-import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.dyson.chat.core.AbstractEntity;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @NoArgsConstructor
-@Data
-public class Message {
-    private String from;
-
-    private String content;
-
-    public Message(String from, String content) {
-        this.from = from;
+@Document
+public class Message extends AbstractEntity {
+    public String username;
+    public String chatId;
+    public String content;
+    public String data;
+    public Message(String username, String content) {
+        this.username = username;
         this.content = content;
     }
 }

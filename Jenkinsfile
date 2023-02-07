@@ -17,6 +17,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 sh 'whoami'
+                sh 'docker'
+                sh 'docker ps'
                 sh './gradlew docker'
             }
         }
