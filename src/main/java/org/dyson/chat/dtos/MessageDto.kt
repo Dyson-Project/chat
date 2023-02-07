@@ -6,14 +6,14 @@ import org.dyson.chat.enums.ChatType
 class MessageDto(
     val chatType: ChatType,
     val username: String,
-    val chatId: Long? = null,
+    var chatId: Long? = null,
     val content: String,
     val data: String
 )
 
-fun MessageDto.toMessage(newChatId: Long? = null) = Message(
+fun MessageDto.toMessage() = Message(
     username,
-    chatId ?: newChatId,
+    chatId,
     content,
     data
 )

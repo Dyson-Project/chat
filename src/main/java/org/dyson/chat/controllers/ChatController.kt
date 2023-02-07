@@ -1,6 +1,6 @@
 package org.dyson.chat.controllers
 
-import org.dyson.chat.dtos.EmptyDto
+import org.dyson.chat.core.AuthenticationFacade
 import org.dyson.chat.dtos.MessageDto
 import org.dyson.chat.dtos.toMessage
 import org.dyson.chat.entities.Chat
@@ -10,12 +10,10 @@ import org.dyson.chat.exceptions.WSException
 import org.dyson.chat.repositories.ChatRepository
 import org.dyson.chat.repositories.MemberRepository
 import org.dyson.chat.repositories.MessageRepository
-import org.dyson.chat.core.AuthenticationFacade
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.simp.SimpMessagingTemplate
-import org.springframework.messaging.simp.annotation.SendToUser
 import org.springframework.messaging.support.GenericMessage
 import org.springframework.stereotype.Controller
 
@@ -32,8 +30,7 @@ class ChatController @Autowired constructor(
     val log = LoggerFactory.getLogger(ChatController::class.java);
 
     @MessageMapping("/chat")
-    @SendToUser("/messages")
-    fun send(genericMessage: GenericMessage<MessageDto>): EmptyDto{
+    fun send(genericMessage: GenericMessage<MessageDto>) {
 //        GenericMessage [headers={
 //            simpMessageType=MESSAGE,
 //            stompCommand=SEND,
@@ -62,21 +59,22 @@ class ChatController @Autowired constructor(
                             ChatType.PERSONAL
                         )
                     )
-                    newChatId = newChat.id
+                    msg.chatId = newChat.id
                 }
 
-                messageRepository.save(msg.toMessage(newChatId))
+                messageRepository.save(msg.toMessage())
+
+                messagingTemplate.convertAndSendToUser(msg.username, "/messages", "")
             }
 
             ChatType.GROUP -> {
                 val chatOpt = chatRepository.findById(msg.chatId)
                 chatOpt.orElseThrow { throw WSException(Code.ID_NOT_FOUND) }
                 messageRepository.save(msg.toMessage())
+
+                messagingTemplate.convertAndSend("/chat", "")
             }
-
         }
-
-        return EmptyDto();
     }
 
 
