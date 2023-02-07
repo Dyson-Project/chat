@@ -2,11 +2,13 @@ package org.dyson.chat;
 
 import org.dyson.chat.entities.Authority;
 import org.dyson.chat.entities.User;
+import org.dyson.chat.repositories.MessageRepository;
 import org.dyson.chat.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.Set;

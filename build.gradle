@@ -88,5 +88,5 @@ dockerRun {
     ports '4160:4160'
     env 'SPRING_PROFILES_ACTIVE': 'default'
     clean true
-    daemonize true
+    daemonize false
 }
