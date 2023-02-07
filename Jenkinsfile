@@ -19,6 +19,7 @@ pipeline {
                 sh 'whoami'
                 sh 'docker'
                 sh 'docker ps'
+                sh 'java -version'
                 sh './gradlew docker'
             }
         }
