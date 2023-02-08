@@ -116,3 +116,7 @@ task copyReactApp(type: Copy) {
     into "${projectDir}/build/resources/main/public/."
 }
 bootJar.dependsOn(copyReactApp)
+
+tasks.assembleFrontend {
+    enabled = false
+}
