@@ -6,7 +6,7 @@ plugins {
     id 'com.palantir.docker' version '0.31.0'
     id 'com.palantir.docker-run' version '0.31.0'
     id 'pl.allegro.tech.build.axion-release' version '1.13.6'
-    id 'org.siouan.frontend' version '3.0.2'
+    id 'org.siouan.frontend-jdk11' version '6.0.0'
 }
 
 group = 'org.dyson'
@@ -100,8 +100,12 @@ dockerRun {
 
 frontend {
     nodeVersion = '19.6.0'
-    // See 'scripts' section in your 'package.json file'
-    cleanScript = 'npm clean'
-    assembleScript = 'npm build'
+
+    installScript = 'install'
+    cleanScript = 'run clean'
+    assembleScript = 'run build'
     checkScript = 'run test'
+    publishScript = 'run publish'
+
+    packageJsonDirectory = new File(projectDir, "chat-fe")
 }

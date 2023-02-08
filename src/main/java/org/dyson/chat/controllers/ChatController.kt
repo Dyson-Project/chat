@@ -3,6 +3,7 @@ package org.dyson.chat.controllers
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
 import org.dyson.chat.entities.Chat
 import org.dyson.chat.repositories.ChatRepository
+import org.slf4j.LoggerFactory
 import org.springdoc.api.annotations.ParameterObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*
 class ChatController @Autowired constructor(
     val chatRepository: ChatRepository
 ) {
+    val log = LoggerFactory.getLogger(ChatController::class.java)
 
     @PostMapping
     fun create(@RequestBody chat: Chat): ResponseEntity<Void> {
@@ -24,7 +26,8 @@ class ChatController @Autowired constructor(
     }
 
     @GetMapping
-    fun list(@RequestParam @ParameterObject pageable: Pageable): ResponseEntity<Page<Chat>> {
+    fun list(@ParameterObject pageable: Pageable): ResponseEntity<Page<Chat>> {
+        log.info("page {}", pageable)
         return ResponseEntity.ok(chatRepository.findAll(pageable))
     }
 

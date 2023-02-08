@@ -1,5 +1,6 @@
 package org.dyson.chat.core
 
+import org.slf4j.LoggerFactory
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.domain.AuditorAware
@@ -16,8 +17,11 @@ open class AuditingConfig {
 }
 
 class AuditorAwareImpl : AuditorAware<String> {
+    val log = LoggerFactory.getLogger(AuditorAwareImpl::class.java)
+
     override fun getCurrentAuditor(): Optional<String> {
         val authentication = SecurityContextHolder.getContext().authentication
+        log.info("authentication: {}", authentication)
         if (authentication == null || !authentication.isAuthenticated || authentication is AnonymousAuthenticationToken) {
             return Optional.empty()
         }
