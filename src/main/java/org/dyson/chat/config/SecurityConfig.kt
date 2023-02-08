@@ -10,16 +10,31 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 
 @Configuration
 open class SecurityConfig @Autowired constructor(val userService: UserService) {
     val log = LoggerFactory.getLogger(SecurityConfig::class.java)
-
+    @Bean
+    open fun webMvc():WebMvcConfigurer{
+        return object: WebMvcConfigurer{
+            override fun addCorsMappings(registry: CorsRegistry) {
+                registry.addMapping("/**")
+                    .allowedOrigins("*")
+                    .allowedMethods("*")
+                    .allowedHeaders("*")
+                    .maxAge(3600)
+                    .exposedHeaders("*")
+            }
+        }
+    }
     @Bean
     open fun securityFilterChan(http: HttpSecurity): SecurityFilterChain {
         http
             .csrf().disable()
+            .cors().and()
             .authorizeRequests()
             .antMatchers(
                 "/v3/api-docs/**",
