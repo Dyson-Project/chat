@@ -101,6 +101,7 @@ dockerRun {
 frontend {
     nodeVersion = '19.6.0'
     nodeDistributionProvided = true
+    nodeInstallDirectory = file("${projectDir}/chat-fe/node")
 
     installScript = 'install'
     cleanScript = 'run clean'
