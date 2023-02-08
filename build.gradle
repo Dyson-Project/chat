@@ -100,8 +100,8 @@ dockerRun {
 
 frontend {
     nodeVersion = '19.6.0'
-    nodeDistributionProvided = true
-//    nodeInstallDirectory = file("${projectDir}/chat-fe/node")
+    nodeDistributionProvided = false
+    nodeInstallDirectory = file("${projectDir}/chat-fe/node")
 
     installScript = 'install'
     cleanScript = 'run clean'
@@ -109,7 +109,7 @@ frontend {
     checkScript = 'run test'
     publishScript = 'run publish'
 
-    packageJsonDirectory = file{"${projectDir}/chat-fe"}
+    packageJsonDirectory = file { "${projectDir}/chat-fe" }
 }
 task copyReactApp(type: Copy) {
     from "${projectDir}/chat-fe/build"
