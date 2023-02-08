@@ -108,5 +108,10 @@ frontend {
     checkScript = 'run test'
     publishScript = 'run publish'
 
-    packageJsonDirectory = new File(projectDir, "chat-fe")
+    packageJsonDirectory = file{"${projectDir}/chat-fe"}
 }
+task copyReactApp(type: Copy) {
+    from "${projectDir}/chat-fe/build"
+    into "${projectDir}/build/resources/main/public/."
+}
+bootJar.dependsOn(copyReactApp)
