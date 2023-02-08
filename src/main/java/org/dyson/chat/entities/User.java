@@ -24,28 +24,28 @@ public class User extends AbstractAuditEntity implements UserDetails, Credential
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private Set<Authority> authorities;
+    private final Set<Authority> authorities;
 
-    private Boolean accountNonExpired;
+    private final Boolean accountNonExpired;
 
-    private Boolean accountNonLocked;
+    private final Boolean accountNonLocked;
 
-    private Boolean credentialsNonExpired;
+    private final Boolean credentialsNonExpired;
 
-    private Boolean enabled;
+    private final Boolean enabled;
 
     protected User() {
         this("root", "root", Set.of());
     }
 
-    public User(String username, String password, Set<? extends Authority> authorities) {
+    public User(String username, String password, Set<Authority> authorities) {
         this(username, password, true, true, true, true, authorities);
     }
 
 
     public User(String username, String password, boolean enabled, boolean accountNonExpired,
                 boolean credentialsNonExpired, boolean accountNonLocked,
-                Set<? extends Authority> authorities) {
+                Set<Authority> authorities) {
         Assert.isTrue(username != null && !"".equals(username) && password != null,
                 "Cannot pass null or empty values to constructor");
         this.username = username;
@@ -55,6 +55,18 @@ public class User extends AbstractAuditEntity implements UserDetails, Credential
         this.credentialsNonExpired = credentialsNonExpired;
         this.accountNonLocked = accountNonLocked;
         this.authorities = sortAuthorities(authorities);
+    }
+
+    private static SortedSet<Authority> sortAuthorities(Set<? extends Authority> authorities) {
+        Assert.notNull(authorities, "Cannot pass a null GrantedAuthority collection");
+        // Ensure array iteration order is predictable (as per
+        // UserDetails.getAuthorities() contract and SEC-717)
+        SortedSet<Authority> sortedAuthorities = new TreeSet<>(new AuthorityComparator());
+        for (Authority grantedAuthority : authorities) {
+            Assert.notNull(grantedAuthority, "GrantedAuthority list cannot contain any null elements");
+            sortedAuthorities.add(grantedAuthority);
+        }
+        return sortedAuthorities;
     }
 
     @Override
@@ -102,16 +114,16 @@ public class User extends AbstractAuditEntity implements UserDetails, Credential
         this.password = null;
     }
 
-    private static SortedSet<Authority> sortAuthorities(Set<? extends Authority> authorities) {
-        Assert.notNull(authorities, "Cannot pass a null GrantedAuthority collection");
-        // Ensure array iteration order is predictable (as per
-        // UserDetails.getAuthorities() contract and SEC-717)
-        SortedSet<Authority> sortedAuthorities = new TreeSet<>(new AuthorityComparator());
-        for (Authority grantedAuthority : authorities) {
-            Assert.notNull(grantedAuthority, "GrantedAuthority list cannot contain any null elements");
-            sortedAuthorities.add(grantedAuthority);
-        }
-        return sortedAuthorities;
+    @Override
+    public String toString() {
+        String sb = getClass().getName() + " [" +
+                "Username=" + this.username + ", " +
+                "Password=[PROTECTED], " +
+                "Enabled=" + this.enabled + ", " +
+                "AccountNonExpired=" + this.accountNonExpired + ", " +
+                "credentialsNonExpired=" + this.credentialsNonExpired + ", " +
+                "AccountNonLocked=" + this.accountNonLocked + ", ";
+        return sb;
     }
 
     private static class AuthorityComparator implements Comparator<GrantedAuthority>, Serializable {
@@ -132,19 +144,5 @@ public class User extends AbstractAuditEntity implements UserDetails, Credential
             return g1.getAuthority().compareTo(g2.getAuthority());
         }
 
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getName()).append(" [");
-        sb.append("Username=").append(this.username).append(", ");
-        sb.append("Password=[PROTECTED], ");
-        sb.append("Enabled=").append(this.enabled).append(", ");
-        sb.append("AccountNonExpired=").append(this.accountNonExpired).append(", ");
-        sb.append("credentialsNonExpired=").append(this.credentialsNonExpired).append(", ");
-        sb.append("AccountNonLocked=").append(this.accountNonLocked).append(", ");
-        sb.append("Granted Authorities=").append(this.authorities).append("]");
-        return sb.toString();
     }
 }

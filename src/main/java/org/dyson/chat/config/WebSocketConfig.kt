@@ -50,7 +50,7 @@ open class WebSocketConfig : AbstractSecurityWebSocketMessageBrokerConfigurer() 
     }
 
     override fun sameOriginDisabled(): Boolean {
-        return true;
+        return true
     }
 
 }

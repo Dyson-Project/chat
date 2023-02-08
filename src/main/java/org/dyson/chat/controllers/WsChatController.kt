@@ -27,7 +27,7 @@ class WsChatController @Autowired constructor(
 ) {
     //    SimpMessageType.MESSAGE
 //    StompCommand.SEND
-    val log = LoggerFactory.getLogger(WsChatController::class.java);
+    val log = LoggerFactory.getLogger(WsChatController::class.java)
 
     @MessageMapping("/chat")
     fun send(genericMessage: GenericMessage<MessageDto>) {
@@ -40,7 +40,7 @@ class WsChatController @Autowired constructor(
 //                simpUser=UsernamePasswordAuthenticationToken [Principal=org.springframework.security.core.userdetails.User [Username=user, Password=[PROTECTED], Enabled=true, AccountNonExpired=true, credentialsNonExpired=true, AccountNonLocked=true, Granted Authorities=[]], Credentials=[PROTECTED], Authenticated=true, Details=WebAuthenticationDetails [RemoteIpAddress=0:0:0:0:0:0:0:1, SessionId=646BDCBAED89D1598275EFD33AED5A53], Granted Authorities=[]], lookupDestination=/chat, simpSessionId=r1wcd2fh, simpDestination=/app/chat
 //        }]
         log.info("message: {} {}", genericMessage.headers.keys, genericMessage.headers["simpUser"])
-        val msg = genericMessage.payload;
+        val msg = genericMessage.payload
         /*
         1. Chat 1-1
         -> 1.1 Chua tao chat
@@ -51,7 +51,7 @@ class WsChatController @Autowired constructor(
         // 1.1
         when (msg.chatType) {
             ChatType.PERSONAL -> {
-                var newChatId: Long? = null;
+                var newChatId: Long? = null
                 if (msg.chatId == null) {
                     val newChat = chatRepository.save(
                         Chat(

@@ -2,14 +2,12 @@ package org.dyson.chat;
 
 import org.dyson.chat.entities.Authority;
 import org.dyson.chat.entities.User;
-import org.dyson.chat.repositories.MessageRepository;
 import org.dyson.chat.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Set;
 
@@ -17,6 +15,8 @@ import java.util.Set;
 public class ChatApplication implements CommandLineRunner {
     @Autowired
     UserService userService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public static void main(String[] args) {
         SpringApplication.run(ChatApplication.class, args);
@@ -26,7 +26,7 @@ public class ChatApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         var user = new User(
                 "root",
-                new BCryptPasswordEncoder().encode("root"),
+                passwordEncoder.encode("root"),
                 Set.of(new Authority("ROLE_ROOT"))
         );
         userService.createUser(user);

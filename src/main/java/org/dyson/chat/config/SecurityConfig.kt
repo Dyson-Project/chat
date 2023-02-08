@@ -28,8 +28,12 @@ open class SecurityConfig @Autowired constructor(val userService: UserService) {
             ).permitAll()
             .anyRequest().authenticated()
             .and()
-            .httpBasic();
-        return http.build();
+            .formLogin().permitAll()
+            .and()
+            .httpBasic()
+            .and()
+            .logout().permitAll()
+        return http.build()
     }
 
     @Bean
@@ -41,7 +45,7 @@ open class SecurityConfig @Autowired constructor(val userService: UserService) {
 
     @Bean
     open fun passwordEncoder(): PasswordEncoder {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder()
     }
 
 }

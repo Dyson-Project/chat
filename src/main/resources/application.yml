@@ -28,6 +28,8 @@ spring:
       date-time: iso
       date: iso
       time: iso
+springdoc:
+  show-login-endpoint: true
 logging:
   level:
     org:

@@ -1,8 +1,6 @@
 package org.dyson.chat.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.dyson.chat.core.AbstractEntity;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -17,13 +15,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Document("message")
 public class Message {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
     public String username;
     public Long chatId;
     public String content;
     public String data;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
     @CreatedDate
     private LocalDateTime createdAt;
     @CreatedBy
