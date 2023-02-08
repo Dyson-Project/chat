@@ -18,11 +18,17 @@ open class SecurityConfig @Autowired constructor(val userService: UserService) {
 
     @Bean
     open fun securityFilterChan(http: HttpSecurity): SecurityFilterChain {
-        http.cors().disable()
+        http
             .csrf().disable()
             .authorizeRequests()
-            .anyRequest()
-            .permitAll()
+            .antMatchers(
+                "/v3/api-docs/**",
+                "/swagger-ui/**",
+                "/swagger-ui.html"
+            ).permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .httpBasic();
         return http.build();
     }
 

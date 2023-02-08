@@ -6,6 +6,7 @@ plugins {
     id 'com.palantir.docker' version '0.31.0'
     id 'com.palantir.docker-run' version '0.31.0'
     id 'pl.allegro.tech.build.axion-release' version '1.13.6'
+    id 'org.siouan.frontend' version '3.0.2'
 }
 
 group = 'org.dyson'
@@ -49,6 +50,11 @@ dependencies {
     implementation 'org.webjars:sockjs-client:1.5.1'
     implementation 'org.webjars:webjars-locator:0.46'
     /**
+     * Open API
+     */
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.14'
+    implementation 'org.springdoc:springdoc-openapi-data-rest:1.6.14'
+    /**
      * Kotlin
      */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
@@ -89,4 +95,12 @@ dockerRun {
     env 'SPRING_PROFILES_ACTIVE': 'default'
     clean true
     daemonize false
+}
+
+frontend {
+    nodeVersion = '19.6.0'
+    // See 'scripts' section in your 'package.json file'
+    cleanScript = 'npm clean'
+    assembleScript = 'npm build'
+    checkScript = 'run test'
 }
