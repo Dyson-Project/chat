@@ -100,6 +100,7 @@ dockerRun {
 
 frontend {
     nodeVersion = '19.6.0'
+    nodeDistributionProvided = true
 
     installScript = 'install'
     cleanScript = 'run clean'
