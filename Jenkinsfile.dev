@@ -6,12 +6,12 @@ pipeline {
     stages {
         stage('Process Resources') {
             steps {
-                sh './gradlew makeFrontend --debug'
+                sh './gradlew makeFrontend --stacktrace'
             }
         }
         stage('Run') {
             steps {
-                sh './gradlew bootRun --debug'
+                sh './gradlew bootRun --stacktrace'
             }
         }
     }
