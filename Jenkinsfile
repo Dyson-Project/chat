@@ -14,6 +14,12 @@ pipeline {
                 sh './gradlew docker'
             }
         }
+        stage('Remove container'){
+           steps{
+               sh  './gradlew dockerStop'
+               sh  './gradlew dockerRemoveContainer'
+           }
+        }
         stage('Run Docker Image') {
             steps {
                 sh './gradlew dockerRun'
