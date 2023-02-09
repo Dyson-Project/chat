@@ -6,7 +6,9 @@ pipeline {
     stages {
         stage('Process Resources') {
             steps {
-                sh './gradlew makeFrontend --stacktrace'
+                sh 'npm install --prefix chat-fe'
+                sh 'npm build --prefix chat-fe'
+                sh 'cp chat-fe/build build/resources/main/public/.'
             }
         }
         stage('Run') {
