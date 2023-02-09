@@ -4,14 +4,9 @@ pipeline {
         pollSCM '* * * * *'
     }
     stages {
-        stage('Build') {
+        stage('Process Resources') {
             steps {
-                sh './gradlew assembleFrontend --debug'
-            }
-        }
-        stage('Integrate Frontend') {
-            steps {
-                sh './gradlew copyReactApp'
+                sh './gradlew makeFrontend'
             }
         }
         stage('Run') {

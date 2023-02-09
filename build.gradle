@@ -6,7 +6,7 @@ plugins {
     id 'com.palantir.docker' version '0.31.0'
     id 'com.palantir.docker-run' version '0.31.0'
     id 'pl.allegro.tech.build.axion-release' version '1.13.6'
-    id 'org.siouan.frontend-jdk11' version '6.0.0'
+    id "com.github.node-gradle.node" version "3.5.0"
 }
 
 group = 'org.dyson'
@@ -71,39 +71,52 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
 
 /**
  * FRONT-END
  */
 
-frontend {
-    nodeVersion = '19.6.0'
-    nodeDistributionProvided = false
-    nodeInstallDirectory = file("${projectDir}/chat-fe/node")
-
-    installScript = 'install'
-    cleanScript = 'run clean'
-    assembleScript = 'run build'
-    checkScript = 'run test'
-    publishScript = 'run publish'
-
-    packageJsonDirectory = file { "${projectDir}/chat-fe" }
+def frontendDir = 'chat-fe'
+node {
+    // Version of node to use.
+    version = '19.6.0'
+    // Base URL for fetching node distributions (change if you have a mirror).
+//    distBaseUrl = 'https://nodejs.org/dist'
+    // If true, it will download node using above parameters.
+    // If false, it will try to use globally installed node.
+    download = true
+    // Set the work directory for unpacking node
+    workDir = file("${projectDir}/${frontendDir}/node")
+    // Set the work directory for NPM
+    npmWorkDir = file("${projectDir}/${frontendDir}/npm")
+    // Set the work directory where node_modules should be located
+    nodeModulesDir = file("${projectDir}/${frontendDir}")
 }
-task copyReactApp(type: Copy) {
-    from "${projectDir}/chat-fe/build"
+
+task npmInstallDependencies(type: NpmTask) {
+    dependsOn npmSetup
+    execOverrides {
+        it.ignoreExitValue = false
+        it.workingDir = frontendDir
+    }
+    args = ['install']
+}
+
+task npmBuild(type: NpmTask) {
+    dependsOn npmInstallDependencies
+    execOverrides {
+        it.ignoreExitValue = false
+        it.workingDir = frontendDir
+    }
+    args = ['run', 'build']
+}
+
+task makeFrontend(type: Copy) {
+    dependsOn npmBuild
+    from "${projectDir}/${frontendDir}/build"
     into "${projectDir}/build/resources/main/public/."
 }
-bootJar.dependsOn(copyReactApp)
+
 
 /**
  * DOCKER
@@ -123,8 +136,3 @@ dockerRun {
     clean true
     daemonize true
 }
-
-//
-//tasks.assembleFrontend {
-//    enabled = false
-//}
