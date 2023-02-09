@@ -31,7 +31,4 @@ class ChatController @Autowired constructor(
         return ResponseEntity.ok(chatRepository.findAll(pageable))
     }
 
-    fun one() {
-
-    }
 }

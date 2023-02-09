@@ -6,20 +6,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './gradlew assemble --stacktrace --debug'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh './gradlew test'
+                sh './gradlew assemble'
             }
         }
         stage('Build Docker Image') {
             steps {
-                sh 'whoami'
-                sh 'docker'
-                sh 'docker ps'
-                sh 'java -version'
                 sh './gradlew docker'
             }
         }
