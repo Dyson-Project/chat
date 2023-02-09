@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh './gradlew assembleFrontend'
+                sh './gradlew assembleFrontend --debug'
             }
         }
         stage('Integrate Frontend') {
