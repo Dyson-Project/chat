@@ -84,7 +84,7 @@ node {
 //    distBaseUrl = 'https://nodejs.org/dist'
     // If true, it will download node using above parameters.
     // If false, it will try to use globally installed node.
-    download = true
+    download = false
     // Set the work directory for unpacking node
     workDir = file("${projectDir}/${frontendDir}/node")
     // Set the work directory for NPM
