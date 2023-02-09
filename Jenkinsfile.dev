@@ -7,7 +7,7 @@ pipeline {
         stage('Process Resources') {
             steps {
                 sh 'npm install --prefix chat-fe'
-                sh 'npm build --prefix chat-fe'
+                sh 'npm run build --prefix chat-fe'
                 sh 'cp chat-fe/build build/resources/main/public/.'
             }
         }
