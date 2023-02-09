@@ -1,0 +1,23 @@
+pipeline {
+    agent any
+    triggers {
+        pollSCM '* * * * *'
+    }
+    stages {
+        stage('Build') {
+            steps {
+                sh './gradlew assembleFrontend'
+            }
+        }
+        stage('Integrate Frontend') {
+            steps {
+                sh './gradlew copyReactApp'
+            }
+        }
+        stage('Run') {
+            steps {
+                sh './gradlew bootRun'
+            }
+        }
+    }
+}

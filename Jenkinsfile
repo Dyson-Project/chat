@@ -14,7 +14,7 @@ pipeline {
                 sh './gradlew docker'
             }
         }
-        stage('Remove container'){
+        stage('Clean container'){
            steps{
                sh  './gradlew dockerStop'
                sh  './gradlew dockerRemoveContainer'
