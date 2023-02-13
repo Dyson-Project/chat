@@ -1,5 +1,6 @@
 package org.dyson.chat.config
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.server.ServerHttpRequest
 import org.springframework.http.server.ServerHttpResponse
@@ -15,9 +16,25 @@ import org.springframework.web.socket.server.support.DefaultHandshakeHandler
 
 @Configuration
 @EnableWebSocketMessageBroker
-open class WebSocketConfig : AbstractSecurityWebSocketMessageBrokerConfigurer() {
+open class WebSocketConfig(
+    @Value("\${websocket.replay.host}")
+    val host: String,
+    @Value("\${websocket.replay.port}")
+    val port: Int,
+    @Value("\${websocket.replay.login}")
+    val login: String,
+    @Value("\${websocket.replay.passcode}")
+    val passcode: String,
+) : AbstractSecurityWebSocketMessageBrokerConfigurer() {
+
     override fun configureMessageBroker(registry: MessageBrokerRegistry) {
-        registry.enableSimpleBroker("/topic/", "/user/")
+        registry.enableStompBrokerRelay("/topic/", "/queue")
+            .setRelayHost(host)
+            .setRelayPort(port)
+            .setSystemLogin(login)
+            .setSystemPasscode(passcode)
+            .setClientLogin(login)
+            .setClientPasscode(passcode)
         registry.setApplicationDestinationPrefixes("/app")
     }
 

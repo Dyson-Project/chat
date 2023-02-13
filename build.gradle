@@ -25,22 +25,28 @@ repositories {
 
 dependencies {
     /**
+     * Spring boot
+     */
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    /**
      * Security
      */
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-messaging'
     /**
+     * Persistence
+     */
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.postgresql:postgresql:42.5.3'
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    /**
      * Websocket
      */
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.postgresql:postgresql:42.5.3'
-    /**
-     * Json serializer
-     */
-    implementation 'com.fasterxml.jackson.core:jackson-core:2.14.2'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
+    implementation 'io.netty:netty-all:4.1.87.Final'
+    implementation 'io.projectreactor:reactor-core:3.5.2'
+    implementation 'io.projectreactor:reactor-net:2.0.5.RELEASE'
+    implementation 'io.projectreactor.netty:reactor-netty:1.1.2'
     /**
      * Webjar
      */
@@ -49,6 +55,11 @@ dependencies {
     implementation 'org.webjars:stomp-websocket:2.3.4'
     implementation 'org.webjars:sockjs-client:1.5.1'
     implementation 'org.webjars:webjars-locator:0.46'
+    /**
+     * Json serializer
+     */
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.14.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.14.2'
     /**
      * Open API
      */
@@ -60,12 +71,22 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
     /**
+     * Object storage
+     */
+    implementation 'io.minio:minio:8.5.1'
+    /**
+     * Tracing
+     */
+    implementation 'io.zipkin.brave:brave:5.15.0'
+    /**
      * Others
      */
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+    /**
+     * Testing
+     */
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
 }
 
 tasks.named('test') {

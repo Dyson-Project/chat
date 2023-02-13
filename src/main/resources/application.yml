@@ -33,6 +33,20 @@ spring:
       time: iso
 springdoc:
   show-login-endpoint: true
+minio:
+  url: http://14.225.205.235:9000
+  username: admin
+  secretkey: P@ssword789
+  bucket:
+    name: simple
+  default:
+    folder: simple/
+websocket:
+  replay:
+    host: 14.225.205.235
+    port: 61613
+    login: guest
+    passcode: guest
 logging:
   level:
     org:

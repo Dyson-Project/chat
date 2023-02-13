@@ -11,6 +11,7 @@ pipeline {
         }
         stage('Run') {
             steps {
+                sh 'kill run.pid '
                 sh './gradlew bootRun --stacktrace'
             }
         }

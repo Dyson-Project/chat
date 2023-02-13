@@ -49,7 +49,7 @@ function App() {
                     token ?
                         <>
                             <EditorSection token={token} client={wsClient}/>
-                            <SockJsClient url='http://localhost:8080/ws/connect/'
+                            <SockJsClient url='http://localhost:8080/secured/websocket/'
                                           headers={{'Authorization': 'Bearer ' + token}}
                                           topics={[meetingTopic, agentStatusTopic]}
                                           onConnect={() => {
@@ -96,7 +96,7 @@ function LoginSection({onLogin}: { onLogin: React.Dispatch<React.SetStateAction<
 
     async function logInUser2() {
         let rs = await axios.post<any>(
-            HOST + '/cms/login',
+            HOST + '/api/callback/login',
             {userIdentity: "duyth", password: 'P@ssword789'},
             {
                 headers: {

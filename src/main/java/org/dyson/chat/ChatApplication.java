@@ -1,5 +1,7 @@
 package org.dyson.chat;
 
+import io.minio.MinioClient;
+import io.minio.UploadObjectArgs;
 import org.dyson.chat.entities.Authority;
 import org.dyson.chat.entities.User;
 import org.dyson.chat.services.UserService;
